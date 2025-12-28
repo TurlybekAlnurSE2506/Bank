@@ -1,35 +1,62 @@
-public class BankAccount {
-    private int account_id;
-    private String user_name;
-    private String password;
-    private int balance;
+import java.util.Objects;
+import java.util.Scanner;
 
-    public BankAccount(int account_id, String user_name, String password, int balance) {
+public abstract class BankAccount {
+    protected int account_id;
+    protected String user_name;
+    protected String password;
+    protected double balance;
+
+    public BankAccount(int account_id, String user_name, String password, double balance) {
         this.account_id = account_id;
         this.user_name = user_name;
         this.password = password;
         this.balance = balance;
     }
-    public int deposit(int amount){
+    public double deposit(int amount){
         balance = balance + amount;
         return balance;
     }
-    public int withdraw(int amount){
+    public double withdraw(int amount){
         if(balance >= amount && amount >= 0){
             balance = balance - amount;
         } else {
-            System.out.println("Недостаточно средств");
+            System.out.println("Not enough balance");
         }
         return balance;
     }
+    public abstract void calculateInterest();
 
-    public String displayInfo(){
-        return "Имя:" + user_name +
-                "\nОстаток на счету: " + balance;
+    public void transfer(int amount, BankAccount targetAccount) {
+        if (this.balance >= amount && amount > 0) {
+            this.balance -= amount;
+            targetAccount.balance += amount;
+            System.out.println("Transfer successful");
+        } else {
+            System.out.println("Transfer failed: insufficient funds");
+        }
     }
+    public String displayInfo(){
+        return "Name:" + user_name +
+                "\nRemaining balance: " + balance;
+    }
+
     @Override
     public String toString(){
         return user_name = user_name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BankAccount)) return false;
+        BankAccount that = (BankAccount) o;
+        return account_id == that.account_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(account_id);
     }
     public String getUser_name() {
         return user_name;
@@ -39,7 +66,7 @@ public class BankAccount {
         return password;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 

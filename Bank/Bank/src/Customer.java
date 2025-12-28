@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Customer {
     private int customer_id;
@@ -21,13 +22,15 @@ public class Customer {
         for (BankAccount bankAccount : bankAccounts) {
             total += bankAccount.getBalance();
         }
-        return "Общий баланс: " + total;
+        return "Total balance: " + total;
     }
-    public String displayCustomer(){
-        return "ФИО: " + name + " " + surname +
-                "\nАккаунты: " + bankAccounts +
+    @Override
+    public String toString() {
+        return "Name: " + name + " " + surname +
+                "\nAccounts: " + bankAccounts +
                 "\n" + getTotalBalance();
-    }
+    };
+
     public int getCustomer_id() {
         return customer_id;
     }

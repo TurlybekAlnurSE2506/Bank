@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class ApplicationMain {
     public static void main(String[] args) {
@@ -7,35 +8,92 @@ public class ApplicationMain {
         String password = "0000";
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-             Statement statement = connection.createStatement()){
-             // Read
+             Scanner scanner = new Scanner(System.in)) {
+            while(true) {
+                System.out.println("""
+                    Menu
+                    Choose an action for Customer
+                    1 = Read
+                    2 = Write
+                    3 = Delete
+                    4 = Update
+                    5 = Exit
+                    """);
 
-//             ResultSet rs = statement.executeQuery("select * from customer")) {
-//
-//            while (rs.next()) {
-//                System.out.println(
-//                        rs.getLong("customer_id") + " " +
-//                        rs.getString("name") + " " +
-//                        rs.getString("surname") + " " +
-//                        rs.getLong("bank_id")
-//                );
-//            }
-            // Update
+                String choice = scanner.nextLine();
 
-             int sql = statement.executeUpdate(
-                     "update bankAccount set password = 'ssap321' where bankAcc_id = 1");
+                switch (choice) {
 
-             ResultSet rs = statement.executeQuery("select * from bankaccount");
+                    case "1" -> {
+                        Statement statement = connection.createStatement();
+                        ResultSet rs = statement.executeQuery("select * from customer");
 
-            while (rs.next()) {
-            System.out.println(
-                    rs.getLong("bankacc_id") + " " +
-                            rs.getString("username") + " " +
-                            rs.getString("password") + " " +
-                            rs.getDouble("balance")
-            );
-        }
+                        while (rs.next()) {
+                            System.out.println(
+                                    rs.getLong("customer_id") + " " +
+                                            rs.getString("name") + " " +
+                                            rs.getString("surname") + " " +
+                                            rs.getLong("bank_id")
+                            );
+                        }
+                    }
 
+                    case "2" -> {
+                        System.out.println("Enter Name:");
+                        String name = scanner.nextLine();
+
+                        System.out.println("Enter Surname:");
+                        String surname = scanner.nextLine();
+
+                        System.out.println("Enter Bank ID:");
+                        int bankId = Integer.parseInt(scanner.nextLine());
+
+                        String sql = "insert into customer(name, surname, bank_id) values (?, ?, ?)";
+                        PreparedStatement ps = connection.prepareStatement(sql);
+                        ps.setString(1, name);
+                        ps.setString(2, surname);
+                        ps.setInt(3, bankId);
+                        ps.executeUpdate();
+
+                        System.out.println("Customer added successfully.");
+                    }
+
+                    case "3" -> {
+                        System.out.println("Enter customer_id to delete:");
+                        int id = Integer.parseInt(scanner.nextLine());
+
+                        String sql = "delete from customer where customer_id = ?";
+                        PreparedStatement ps = connection.prepareStatement(sql);
+                        ps.setInt(1, id);
+                        ps.executeUpdate();
+
+                        System.out.println("Customer deleted.");
+                    }
+
+                    case "4" -> {
+                        System.out.println("Enter customer_id:");
+                        int id = Integer.parseInt(scanner.nextLine());
+
+                        System.out.println("Enter new name:");
+                        String name = scanner.nextLine();
+
+                        String sql = "update customer set name = ? where customer_id = ?";
+                        PreparedStatement ps = connection.prepareStatement(sql);
+                        ps.setString(1, name);
+                        ps.setInt(2, id);
+                        ps.executeUpdate();
+
+                        System.out.println("Customer updated.");
+                    }
+
+                    case "5" -> {
+                        System.out.println("Program ended.");
+                        return;
+                    }
+
+                    default -> System.out.println("Invalid input");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

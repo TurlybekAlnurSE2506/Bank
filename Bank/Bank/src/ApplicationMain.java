@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
 
 public class ApplicationMain {
     public static void main(String[] args) {
@@ -20,11 +21,11 @@ public class ApplicationMain {
                     5 = Exit
                     """);
 
-                String choice = scanner.nextLine();
+                int choice = Integer.parseInt(scanner.nextLine());
 
                 switch (choice) {
 
-                    case "1" -> {
+                    case 1 -> {
                         Statement statement = connection.createStatement();
                         ResultSet rs = statement.executeQuery("select * from customer");
 
@@ -38,7 +39,7 @@ public class ApplicationMain {
                         }
                     }
 
-                    case "2" -> {
+                    case 2 -> {
                         System.out.println("Enter Name:");
                         String name = scanner.nextLine();
 
@@ -58,7 +59,7 @@ public class ApplicationMain {
                         System.out.println("Customer added successfully.");
                     }
 
-                    case "3" -> {
+                    case 3 -> {
                         System.out.println("Enter customer_id to delete:");
                         int id = Integer.parseInt(scanner.nextLine());
 
@@ -70,7 +71,7 @@ public class ApplicationMain {
                         System.out.println("Customer deleted.");
                     }
 
-                    case "4" -> {
+                    case 4 -> {
                         System.out.println("Enter customer_id:");
                         int id = Integer.parseInt(scanner.nextLine());
 
@@ -86,7 +87,7 @@ public class ApplicationMain {
                         System.out.println("Customer updated.");
                     }
 
-                    case "5" -> {
+                    case 5 -> {
                         System.out.println("Program ended.");
                         return;
                     }
@@ -94,7 +95,9 @@ public class ApplicationMain {
                     default -> System.out.println("Invalid input");
                 }
             }
-        } catch (SQLException e) {
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

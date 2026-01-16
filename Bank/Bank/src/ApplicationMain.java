@@ -1,37 +1,43 @@
-import java.util.ArrayList;
+import java.sql.*;
 
 public class ApplicationMain {
     public static void main(String[] args) {
-        BankAccount account1 = new SavingAccount(1, "mark_super", "steak001",3000, 0.03);
-        BankAccount account2 = new CheckingAccount(2, "fire_jason", "banana007",7000, 1000);
-        BankAccount account3 = new SavingAccount(3, "juice","juice008" ,5000, 0.02);
+        String jdbcUrl = "jdbc:postgresql://localhost:5432/postgres";
+        String username = "postgres";
+        String password = "0000";
 
-        Customer customer1 = new Customer(1, "Mark", "Greyson", new ArrayList<>());
-        Customer customer2 = new Customer(2, "Jason", "Yellow",new ArrayList<>());
-        Customer customer3 = new Customer(3, "Josh", "Green",new ArrayList<>());
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+             Statement statement = connection.createStatement()){
+             // Read
 
-        Bank bank1 = new Bank(1, "Alpha", new ArrayList<>(),  new ArrayList<>());
+//             ResultSet rs = statement.executeQuery("select * from customer")) {
+//
+//            while (rs.next()) {
+//                System.out.println(
+//                        rs.getLong("customer_id") + " " +
+//                        rs.getString("name") + " " +
+//                        rs.getString("surname") + " " +
+//                        rs.getLong("bank_id")
+//                );
+//            }
+            // Update
 
-        bank1.addCustomer(customer1);
-        bank1.addCustomer(customer2);
-        bank1.addCustomer(customer3);
+             int sql = statement.executeUpdate(
+                     "update bankAccount set password = 'ssap321' where bankAcc_id = 1");
 
-        customer1.addAccount(account1);
-        customer1.addAccount(account2);
-        customer2.addAccount(account3);
+             ResultSet rs = statement.executeQuery("select * from bankaccount");
 
-        bank1.applyInterestToAll();
+            while (rs.next()) {
+            System.out.println(
+                    rs.getLong("bankacc_id") + " " +
+                            rs.getString("username") + " " +
+                            rs.getString("password") + " " +
+                            rs.getDouble("balance")
+            );
+        }
 
-        System.out.println(account1);
-        System.out.println(customer1);
-        System.out.println(bank1);
-
-        if (account1.getBalance() == account2.getBalance()) {
-            System.out.println("Баланс равен");
-        } else if (account1.getBalance() < account2.getBalance()) {
-            System.out.println("У второго пользователя баланс больше");
-        } else {
-            System.out.println("У первого пользователя баланс больше");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

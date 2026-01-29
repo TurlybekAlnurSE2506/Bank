@@ -1,4 +1,4 @@
-public class SavingAccount extends BankAccount {
+public class SavingAccount extends BankAccount implements InterestBearing {
     private double interestRate;
 
     public SavingAccount(int account_id, String user_name, String password, int balance, double interestRate) {

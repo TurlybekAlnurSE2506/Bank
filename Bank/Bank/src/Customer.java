@@ -1,14 +1,12 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.List;
 
 public class Customer {
     private int customer_id;
     private String name;
     private String surname;
-    private ArrayList<BankAccount> bankAccounts = new ArrayList<>();
+    private List<BankAccount> bankAccounts;
 
-    public Customer(int customer_id, String name, String surname,  ArrayList<BankAccount> bankAccounts) {
+    public Customer(int customer_id, String name, String surname,  List<BankAccount> bankAccounts) {
         this.customer_id = customer_id;
         this.name = name;
         this.surname = surname;
@@ -18,7 +16,7 @@ public class Customer {
         bankAccounts.add(bankAccount);
     }
     public String getTotalBalance() {
-        int total = 0;
+        double total = 0;
         for (BankAccount bankAccount : bankAccounts) {
             total += bankAccount.getBalance();
         }
@@ -43,7 +41,7 @@ public class Customer {
         return surname;
     }
 
-    public ArrayList<BankAccount> getBankAccounts() {
+    public List<BankAccount> getBankAccounts() {
         return bankAccounts;
     }
 
@@ -59,7 +57,7 @@ public class Customer {
         this.surname = surname;
     }
 
-    public void setBankAccounts(ArrayList<BankAccount> bankAccounts) {
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
         this.bankAccounts = bankAccounts;
     }
 }

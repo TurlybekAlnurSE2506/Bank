@@ -43,7 +43,7 @@ public abstract class BankAccount {
 
     @Override
     public String toString(){
-        return user_name = user_name;
+        return user_name;
     }
 
     @Override

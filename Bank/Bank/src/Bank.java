@@ -1,16 +1,18 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Bank {
     private int bank_id;
     private String bank_name;
-    private final ArrayList<Customer> customers;
-    private ArrayList<BankAccount> accounts = new ArrayList<>();
+    private final List<Customer> customers;
+    private List<BankAccount> accounts;
+    private AccountService accountService;
 
-    public Bank(int bank_id, String bank_name, ArrayList<Customer> customers, ArrayList<BankAccount> accounts) {
+    public Bank(int bank_id, String bank_name, List<Customer> customers, List<BankAccount> accounts, AccountService accountService) {
         this.bank_id = bank_id;
         this.bank_name = bank_name;
         this.customers = customers;
         this.accounts = accounts;
+        this.accountService = accountService;
     }
 
     public void addCustomer(Customer customer) {
@@ -24,37 +26,21 @@ public class Bank {
     private int customerCount() {
         return customers.size();
     }
+    public void applyInterest() {
+        accountService.applyInterestToAll(accounts);
+    }
 
-    public void applyInterestToAll(){
-        for(BankAccount acc : accounts){
-            acc.calculateInterest();
-        }
-    }
-    public String filterByBalance(double filterBalance){
-        for(BankAccount acc : accounts){
-            if(acc.balance <=  filterBalance){
-                return acc.toString();
-            } else{
-                return null;
-            }
-        }
-        return null;
-    }
-    public BankAccount findByUser(String username){
-        for(BankAccount acc : accounts){
-            if(acc.user_name.equals(username)){
-                return acc;
-            }
-        }
-        return null;
-    }
     @Override
     public String toString(){
         return "Bank name: " + bank_name +
                 "\nAmount of clients: " + customerCount();
     }
 
-    public ArrayList<BankAccount> getAccounts() {
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public List<BankAccount> getAccounts() {
         return accounts;
     }
 
@@ -62,7 +48,7 @@ public class Bank {
         return bank_id;
     }
 
-    public ArrayList<Customer> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 
@@ -78,7 +64,11 @@ public class Bank {
         this.bank_name = bank_name;
     }
 
-    public void setAccounts(ArrayList<BankAccount> accounts) {
+    public void setAccounts(List<BankAccount> accounts) {
         this.accounts = accounts;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 }

@@ -1,6 +1,5 @@
 import java.sql.*;
 import java.util.Scanner;
-import java.util.zip.DataFormatException;
 
 public class ApplicationMain {
     public static void main(String[] args) {
@@ -56,7 +55,7 @@ public class ApplicationMain {
                         ps.setInt(3, bankId);
                         ps.executeUpdate();
 
-                        System.out.println("Customer added successfully.");
+                        System.out.println("Customer added successfully");
                     }
 
                     case 3 -> {
@@ -68,7 +67,7 @@ public class ApplicationMain {
                         ps.setInt(1, id);
                         ps.executeUpdate();
 
-                        System.out.println("Customer deleted.");
+                        System.out.println("Customer deleted");
                     }
 
                     case 4 -> {
@@ -84,11 +83,11 @@ public class ApplicationMain {
                         ps.setInt(2, id);
                         ps.executeUpdate();
 
-                        System.out.println("Customer updated.");
+                        System.out.println("Customer updated");
                     }
 
                     case 5 -> {
-                        System.out.println("Program ended.");
+                        System.out.println("Program ended");
                         return;
                     }
 

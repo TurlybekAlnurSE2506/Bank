@@ -16,10 +16,7 @@ public class Customer {
         bankAccounts.add(bankAccount);
     }
     public String getTotalBalance() {
-        double total = 0;
-        for (BankAccount bankAccount : bankAccounts) {
-            total += bankAccount.getBalance();
-        }
+        double total = bankAccounts.stream().mapToDouble(bankAccounts -> bankAccounts.getBalance()).sum();
         return "Total balance: " + total;
     }
     @Override

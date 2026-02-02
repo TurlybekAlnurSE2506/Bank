@@ -11,6 +11,7 @@ public class AccountService {
         }
     }
 
+
     public List<BankAccount> filterByBalance(List<BankAccount> accounts, double filterBalance) {
         List<BankAccount> result = new ArrayList<>();
         for (BankAccount acc : accounts) {

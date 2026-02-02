@@ -1,7 +1,7 @@
 public class SavingAccount extends BankAccount implements InterestBearing {
     private double interestRate;
 
-    public SavingAccount(int account_id, String user_name, String password, int balance, double interestRate) {
+    public SavingAccount(int account_id, String user_name, String password, double balance, double interestRate) {
         super(account_id, user_name, password, balance);
         this.interestRate = interestRate;
     };
